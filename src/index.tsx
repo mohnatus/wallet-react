@@ -1,15 +1,51 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { Provider } from "react-redux";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import store from "./store/store";
+import { ErrorPage } from "./routes/error";
+import { ItemsPage } from "./routes/items";
+import { StatsPage } from "./routes/stats";
+import { initDB } from "./db";
+import { setItems } from "./features/items/itemsSlice";
+import { setPeriods } from "./features/periods/periodsSlice";
+import { setTags } from "./features/tags/tagsSlice";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: "/",
+        element: <ItemsPage />,
+      },
+      {
+        path: "/stats",
+        element: <StatsPage />,
+      },
+    ],
+  },
+]);
+
+initDB().then(({ tags, items, periods }) => {
+  store.dispatch(setItems(items));
+  store.dispatch(setTags(tags))
+  store.dispatch(setPeriods(periods))
+})
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>
 );
 

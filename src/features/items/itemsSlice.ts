@@ -6,7 +6,7 @@ import {
 } from "@reduxjs/toolkit";
 import { TItem, TNewItemData } from "../../types";
 import { Progress } from "../../constants/progress";
-import { addItemToDb, removeItemFromDb } from "../../db";
+import { addItemToDb, removeItemFromDb, updateItemInDb } from "../../db";
 import { RootState } from "../../store/store";
 import { selectActiveInterval } from "../periods/periodsSlice";
 
@@ -61,6 +61,40 @@ export const itemsSlice = createSlice({
       itemsAdapter.addOne(state, item);
       addItemToDb(item);
     },
+    updateItem(
+      state,
+      action: PayloadAction<{ item: TItem; data: TNewItemData }>
+    ) {
+      const { item, data } = action.payload;
+      const { subitems = [], ...fields } = data;
+
+      const createdAt = item.createdAt;
+
+      const updatedItem: TItem = {
+        ...item,
+        ...fields,
+        subitems: subitems.map((subitemData) => {
+          state.lastId = state.lastId + 1;
+
+          const subitem: TItem = {
+            id: state.lastId,
+            createdAt,
+            text: subitemData.text,
+            price: subitemData.price,
+            tag: subitemData.tag,
+          };
+
+          return subitem;
+        })
+      }
+
+      itemsAdapter.updateOne(state, {
+        id: item.id,
+        changes: updatedItem,
+      });
+
+      updateItemInDb(updatedItem)
+    },
     removeItem(state, action: PayloadAction<TItem>) {
       itemsAdapter.removeOne(state, action.payload.id);
       removeItemFromDb(action.payload);
@@ -70,7 +104,7 @@ export const itemsSlice = createSlice({
 
 export default itemsSlice.reducer;
 
-export const { setItems, addItem, removeItem } = itemsSlice.actions;
+export const { setItems, addItem, updateItem, removeItem } = itemsSlice.actions;
 
 export const {
   selectAll: selectAllItems,
@@ -94,8 +128,10 @@ export const selectItemsByTag = createSelector(
 
 export const selectActiveItems = createSelector(
   [selectAllItems, selectActiveInterval],
-  (items, activePeriod) => {
+  (items: TItem[], activePeriod) => {
     const [from, to] = activePeriod;
+
+    console.log({ activePeriod });
 
     return items.filter((item) => {
       if (from && item.createdAt < from) return false;

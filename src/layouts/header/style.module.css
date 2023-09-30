@@ -1,0 +1,11 @@
+.Header {
+  background-color: var(--accent);
+  padding: var(--unit-2) 0;
+  position: sticky;
+  top: 0;
+}
+
+.Container {
+  display: flex;
+  justify-content: space-between;
+}

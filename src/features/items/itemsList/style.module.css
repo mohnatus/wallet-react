@@ -1,0 +1,64 @@
+.List {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.ItemWrapper {
+  border: 1px solid var(--border);
+  padding: var(--unit-2);
+  border-radius: var(--radius);
+}
+
+.Item {
+
+}
+
+.Wrapper {
+  display: flex;
+}
+
+.Close {
+  flex-shrink: 0;
+  margin-left: var(--unit-4);
+}
+
+.Content {
+  flex-grow: 1;
+}
+
+.Header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.Text {
+
+}
+
+.Price {
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.Tag {
+  display: inline-block;
+  border: 1px solid var(--border);
+  padding: var(--unit);
+  border-radius: var(--radius);
+}
+
+.Subitems {
+  margin-top: var(--unit);
+  padding: var(--unit-2) 0 0 var(--unit-3);
+  border-top: 1px solid var(--border);
+}
+
+.SubitemsHeader {
+  font-weight: bold;
+  margin-bottom: var(--unit-2);
+}
+
+.Subitem {
+
+}

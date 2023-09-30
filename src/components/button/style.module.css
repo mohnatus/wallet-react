@@ -1,0 +1,62 @@
+.Button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  outline: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  font-weight: bold;
+  padding: var(--unit-2);
+  text-transform: uppercase;
+  border-radius: var(--radius);
+
+  height: var(--button-size);
+
+  background-color: var(--accent);
+  color: white;
+}
+
+.Button:hover {
+  background-color: var(--light);
+}
+
+.Invert {
+  background-color: white;
+  color: var(--accent);
+}
+
+.Invert:hover {
+  background-color: var(--light);
+}
+
+.Ghost {
+  background-color: transparent;
+  padding: 0;
+}
+
+.Ghost:hover {
+  background-color: transparent;
+}
+
+.Large {
+  --button-size: 40px;
+}
+
+.Medium {
+  --button-size: 30px;
+}
+
+.Small {
+  --button-size: 25px;
+}
+
+.Block {
+  width: 100%;
+}
+
+.Rect {
+  padding: 0;
+  width: var(--button-size);
+}

@@ -1,0 +1,34 @@
+.Panel {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 300px;
+  max-width: 50vw;
+  background: rgba(0, 0, 0, 0.85);
+  color: white;
+  transition: transform 250ms ease-in-out;
+}
+
+.Left {
+  left: 0;
+  transform: translateX(-100%);
+}
+
+.Right {
+  right: 0;
+  transform: translateX(100%);
+}
+
+.Active {
+  transform: none;
+}
+
+.Container {
+  padding: var(--unit-2) var(--unit-4);
+}
+
+.Header {
+  padding: var(--unit-2) var(--unit-4);
+  display: flex;
+  justify-content: flex-end;
+}

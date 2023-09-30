@@ -3,6 +3,9 @@ import { removeTag, selectAllTags } from "../tagsSlice";
 import { useAppDispatch } from "../../../store/store";
 import { TTag } from "../../../types";
 
+import s from "./style.module.css";
+import { Button } from "../../../components/button";
+
 export const TagsList = () => {
   const dispatch = useAppDispatch();
   const tags = useSelector(selectAllTags);
@@ -12,13 +15,13 @@ export const TagsList = () => {
   };
 
   return (
-    <div>
+    <div className={s.List}>
       {tags.map((tag) => (
-        <div key={tag.id}>
-          <span>{tag.name}</span>
-          <button type="button" onClick={() => handleRemove(tag)}>
+        <div key={tag.id} className={s.Tag}>
+          <div className={s.Name}>{tag.name}</div>
+          <Button invert ghost onClick={() => handleRemove(tag)}>
             &times;
-          </button>
+          </Button>
         </div>
       ))}
     </div>

@@ -1,0 +1,37 @@
+.Period {
+  padding: var(--unit-2);
+  cursor: pointer;
+}
+
+.Period:not(:last-child) {
+  border-bottom: 1px solid;
+}
+
+.Period:hover {
+  color: var(--accent);
+}
+
+.Container {
+  display: flex;
+  align-items: center;
+}
+
+.Close {
+  flex-shrink: 0;
+  margin-left: var(--unit-2);
+}
+
+.Content {
+  flex-grow: 1;
+}
+
+.Name {
+  font-size: var(--header-2);
+  font-weight: bold;
+  margin-bottom: var(--unit);
+}
+
+.Active {
+  color: var(--accent);
+  cursor: default;
+}

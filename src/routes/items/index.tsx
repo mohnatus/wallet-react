@@ -1,23 +1,24 @@
 import { useSelector } from "react-redux";
 import { ItemsList } from "../../features/items/itemsList";
-import { useAppDispatch } from "../../store/store";
 import { selectActiveItems } from "../../features/items/itemsSlice";
-import { ItemModal, ItemModalRef } from "../../features/items/itemModal";
-import { useRef } from "react";
+import { Container } from "../../components/container";
+import { selectActiveInterval } from "../../features/periods/periodsSlice";
+import { formatInterval } from "../../utils/intervals";
 
 export const ItemsPage = () => {
-  const items  = useSelector(selectActiveItems)
+  const items = useSelector(selectActiveItems);
+  const interval = useSelector(selectActiveInterval);
 
-  const itemModalRef = useRef<ItemModalRef | null>(null);
-
-  const handleAddItem = () => {
-    itemModalRef.current?.open()
-  }
-
-  return <div>
-    <button onClick={handleAddItem}>Add item</button>
-    <ItemsList items={items} />
-
-    <ItemModal ref={itemModalRef} />
-  </div>
+  return (
+    <div>
+      <Container>
+        <h1>
+          Траты текущего периода
+          <br />
+          {formatInterval(interval)}
+        </h1>
+        <ItemsList items={items} />
+      </Container>
+    </div>
+  );
 };

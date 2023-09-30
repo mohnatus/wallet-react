@@ -1,45 +1,42 @@
-import { useSelector } from "react-redux";
-import { RootState, useAppDispatch } from "../../../store/store";
 import { TItem } from "../../../types";
-import { FC } from "react";
-import { removeItem } from "../itemsSlice";
-import { selectTagById } from "../../tags/tagsSlice";
+import { FC, useRef, useState } from "react";
+import { Item } from "./item";
 
-export type TItemProps = {
-  item: TItem;
-};
+import s from "./style.module.css";
+import { TModalRef } from "../../../hooks/useModal";
+import { Modal } from "../../../components/modal";
+import { ItemForm } from "../itemForm";
 
 export type TItemsListProps = {
   items: TItem[];
 };
 
-export const Item: FC<TItemProps> = ({ item }) => {
-  const tag = useSelector((state: RootState) => selectTagById(state, item.tag));
+export const ItemsList: FC<TItemsListProps> = ({ items }) => {
+  const modalRef = useRef<TModalRef | null>(null);
+  const [activeItem, setActiveItem] = useState<TItem | null>(null);
 
-  const dispatch = useAppDispatch();
+  const handleClick = (item: TItem) => {
+    if (activeItem?.id !== item.id) setActiveItem(item);
+    modalRef.current?.open();
+  };
 
-  const handleRemove = (item: TItem) => {
-    dispatch(removeItem(item));
+  const handleSubmit = () => {
+    modalRef.current?.close();
+    setActiveItem(null);
   };
 
   return (
-    <div>
-      <span>{item.text}</span>
-      <span>{item.price}</span>
-      <span>{tag?.name}</span>
-      <button type="button" onClick={() => handleRemove(item)}>
-        &times;
-      </button>
-    </div>
-  );
-};
-
-export const ItemsList: FC<TItemsListProps> = ({ items }) => {
-  return (
-    <div>
-      {items.map((item) => (
-        <Item key={item.id} item={item} />
-      ))}
-    </div>
+    <>
+      <div className={s.List}>
+        {items.map((item) => (
+          <div key={item.id} className={s.ItemWrapper}>
+            <Item item={item} onClick={handleClick} />
+          </div>
+        ))}
+      </div>
+      <Modal ref={modalRef}>
+        <ItemForm item={activeItem} onSubmit={handleSubmit} />
+      </Modal>
+    </>
   );
 };

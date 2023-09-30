@@ -16,16 +16,16 @@ import { setTags } from "./features/tags/tagsSlice";
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: `/wallet`,
     element: <App />,
     errorElement: <ErrorPage />,
     children: [
       {
-        path: "/",
+        path: "/wallet",
         element: <ItemsPage />,
       },
       {
-        path: "/stats",
+        path: "/wallet/stats",
         element: <StatsPage />,
       },
     ],

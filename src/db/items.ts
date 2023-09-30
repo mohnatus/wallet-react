@@ -14,6 +14,17 @@ export function addItemToDb(item: TItem) {
   };
 }
 
+export function updateItemInDb(item: TItem) {
+  const items = getStore(ITEMS_STORE_NAME, true);
+  let request = items.put(item);
+  request.onsuccess = function () {
+    notify("Запись успешно обновлена");
+  };
+  request.onerror = function () {
+    notifyError("Не удалось обновить запись", request.error);
+  };
+}
+
 export function removeItemFromDb(item: TItem) {
   let items = getStore(ITEMS_STORE_NAME, true);
   let request = items.delete(item.id);

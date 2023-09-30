@@ -24,8 +24,11 @@ export type TNewTagData = Pick<TTag, "name">;
 
 export type TPeriod = {
   id: number;
-  createdAt: number;
+  createdAt: number | null;
+  name: string
 };
+
+export type TNewPeriodData = Pick<TPeriod, "name">
 
 export type TInterval = [start: number | null, end: number | null];
 

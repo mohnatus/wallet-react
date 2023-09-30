@@ -1,0 +1,26 @@
+.Page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.Header {
+  background: black;
+  color: white;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.Content {
+  flex-grow: 1;
+}
+
+.Footer {
+  flex-shrink: 0;
+}
+
+.PanelAction {
+  margin-bottom: var(--unit-3);
+}

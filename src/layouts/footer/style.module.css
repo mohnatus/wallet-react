@@ -1,0 +1,27 @@
+.Footer {
+  padding: var(--unit-2) 0;
+  height: 40px;
+  background-color: var(--accent);
+  color: white;
+}
+
+.Container {
+  display: flex;
+  justify-content: center;
+}
+
+.Add {
+  width: 70px;
+  height: 70px;
+  margin-top: -40px;
+  border-radius: 50%;
+  border: none;
+  outline: none;
+  padding: 0;
+  background-color: var(--accent);
+  border: 5px solid;
+  color: white;
+  font-size: 50px;
+  font-weight: bold;
+  cursor: pointer;
+}

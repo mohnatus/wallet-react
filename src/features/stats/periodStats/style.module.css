@@ -5,3 +5,7 @@
 .Table th, .Table td {
   padding: 10px;
 }
+
+.Inactive {
+  opacity: 0.5;
+}

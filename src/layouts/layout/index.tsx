@@ -68,7 +68,7 @@ export const Layout: FC<PropsWithChildren> = ({ children }) => {
           Start period
         </Button>
 
-        <PeriodsList onSelect={() => periodsPanelRef.current?.close} />
+        <PeriodsList onSelect={() => periodsPanelRef.current?.close()} />
       </Panel>
 
       <Panel ref={tagsPanelRef}>

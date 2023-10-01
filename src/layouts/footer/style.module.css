@@ -3,6 +3,14 @@
   height: 40px;
   background-color: var(--accent);
   color: white;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.Offset {
+  height: 40px;
 }
 
 .Container {
@@ -13,6 +21,7 @@
 .Add {
   width: 70px;
   height: 70px;
+  flex-shrink: 0;
   margin-top: -40px;
   border-radius: 50%;
   border: none;
@@ -24,4 +33,8 @@
   font-size: 50px;
   font-weight: bold;
   cursor: pointer;
+}
+
+.Action {
+  flex-grow: 1;
 }

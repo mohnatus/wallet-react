@@ -4,17 +4,9 @@
   flex-direction: column;
 }
 
-.Header {
-  background: black;
-  color: white;
-  padding: 20px;
-  display: flex;
-  justify-content: space-between;
-  flex-shrink: 0;
-}
-
 .Content {
   flex-grow: 1;
+  padding: 0 0 var(--unit-4) 0;
 }
 
 .Footer {

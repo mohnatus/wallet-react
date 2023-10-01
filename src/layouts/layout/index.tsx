@@ -6,7 +6,7 @@ import { PeriodsList } from "../../features/periods/periodsList";
 import { TModalRef } from "../../hooks/useModal";
 
 import { PeriodForm } from "../../features/periods/periodForm";
-import { Header } from "../header";
+import { Header } from "../../components/header";
 import { Panel } from "../../components/panel";
 
 import { Modal } from "../../components/modal";
@@ -42,15 +42,13 @@ export const Layout: FC<PropsWithChildren> = ({ children }) => {
   return (
     <div>
       <div className={s.Page}>
-        <Header
-          onPeriodsButtonClick={handleTogglePeriods}
-          onTagsButtonClick={handleToggleTags}
-        />
-
         <main className={s.Content}>{children}</main>
 
         <div className={s.Footer}>
-          <Footer />
+          <Footer
+            onPeriodsButtonClick={handleTogglePeriods}
+            onTagsButtonClick={handleToggleTags}
+          />
         </div>
       </div>
 
@@ -70,10 +68,10 @@ export const Layout: FC<PropsWithChildren> = ({ children }) => {
           Start period
         </Button>
 
-        <PeriodsList />
+        <PeriodsList onSelect={() => periodsPanelRef.current?.close} />
       </Panel>
 
-      <Panel ref={tagsPanelRef} right>
+      <Panel ref={tagsPanelRef}>
         <Button block size="l" className={s.PanelAction} onClick={handleAddTag}>
           Add tag
         </Button>

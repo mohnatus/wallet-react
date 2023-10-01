@@ -4,7 +4,7 @@ import {
   PayloadAction,
   createSelector,
 } from "@reduxjs/toolkit";
-import { TItem, TNewItemData } from "../../types";
+import { TItem, TNewItemData, TInterval } from '../../types';
 import { Progress } from "../../constants/progress";
 import { addItemToDb, removeItemFromDb, updateItemInDb } from "../../db";
 import { RootState } from "../../store/store";
@@ -24,11 +24,14 @@ export const itemsSlice = createSlice({
   initialState,
   reducers: {
     setItems(state, action: PayloadAction<TItem[]>) {
-      console.log({ action });
       const items = action.payload;
       itemsAdapter.setAll(state, items);
       state.status = Progress.success;
-      if (items.length) state.lastId = items[items.length - 1].id;
+      const lastId = items.reduce((max, item) => {
+        const { id, subitems = []} = item;
+        return Math.max(id, ...subitems.map(subitem => subitem.id))
+      }, 0)
+      if (items.length) state.lastId = lastId;
     },
     addItem(state, action: PayloadAction<TNewItemData>) {
       state.lastId = state.lastId + 1;
@@ -131,7 +134,18 @@ export const selectActiveItems = createSelector(
   (items: TItem[], activePeriod) => {
     const [from, to] = activePeriod;
 
-    console.log({ activePeriod });
+    return items.filter((item) => {
+      if (from && item.createdAt < from) return false;
+      if (to && item.createdAt >= to) return false;
+      return true;
+    });
+  }
+);
+
+export const selectItemsInInterval = createSelector(
+  [selectAllItems, (state: RootState, interval: TInterval) => interval],
+  (items: TItem[], interval: TInterval) => {
+    const [from, to] = interval;
 
     return items.filter((item) => {
       if (from && item.createdAt < from) return false;
@@ -140,3 +154,4 @@ export const selectActiveItems = createSelector(
     });
   }
 );
+

@@ -13,19 +13,20 @@ import { initDB } from "./db";
 import { setItems } from "./features/items/itemsSlice";
 import { setPeriods } from "./features/periods/periodsSlice";
 import { setTags } from "./features/tags/tagsSlice";
+import { routes } from "./constants/routes";
 
 const router = createBrowserRouter([
   {
-    path: `/wallet`,
+    path: routes.root,
     element: <App />,
     errorElement: <ErrorPage />,
     children: [
       {
-        path: "/wallet",
+        path: routes.root,
         element: <ItemsPage />,
       },
       {
-        path: "/wallet/stats",
+        path: routes.stats,
         element: <StatsPage />,
       },
     ],

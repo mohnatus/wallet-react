@@ -77,6 +77,11 @@ export const {
 export const selectActivePeriod = (state: RootState) =>
   state.periods.activePeriod;
 
+export const selectLastPeriodId = createSelector(
+  [selectAllPeriods],
+  (periods) => periods[periods.length - 1]?.id
+);
+
 export const selectActiveInterval = createSelector(
   [selectAllPeriods, selectActivePeriod],
   (periods, activePeriod) => {
@@ -88,7 +93,7 @@ export const selectActiveInterval = createSelector(
 );
 
 export const selectPeriodInterval = createSelector(
-  [selectAllPeriods, (state, period: TPeriod) => period],
+  [selectAllPeriods, (state, period?: TPeriod | null) => period],
   (periods, period) => {
     if (!period) return [null, null] as TInterval;
     const index = periods.findIndex((p) => p.id === period.id);

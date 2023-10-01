@@ -10,8 +10,13 @@ import { TPeriod } from "../../../types";
 import { Period } from "./period";
 
 import s from "./style.module.css";
+import { FC } from "react";
 
-export const PeriodsList = () => {
+export type TPeriodsListProps = {
+  onSelect?: () => void;
+};
+
+export const PeriodsList: FC<TPeriodsListProps> = ({ onSelect }) => {
   const dispatch = useAppDispatch();
   const periods = useSelector(selectAllPeriods);
   const activePeriod = useSelector(selectActivePeriod);
@@ -22,6 +27,7 @@ export const PeriodsList = () => {
 
   const handleSelect = (period: TPeriod) => {
     dispatch(setActivePeriod(period));
+    if (onSelect) onSelect();
   };
 
   return (

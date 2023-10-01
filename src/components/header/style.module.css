@@ -1,11 +1,23 @@
 .Header {
   background-color: var(--accent);
+  color: white;
   padding: var(--unit-2) 0;
   position: sticky;
   top: 0;
+  margin-bottom: var(--unit-4);
 }
 
 .Container {
   display: flex;
   justify-content: space-between;
+}
+
+.Left {
+  display: flex;
+  gap: var(--unit-3);
+}
+
+.Title {
+  font-weight: bold;
+  text-transform: uppercase;
 }

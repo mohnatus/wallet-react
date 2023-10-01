@@ -9,9 +9,10 @@ import { ItemForm } from "../itemForm";
 
 export type TItemsListProps = {
   items: TItem[];
+  disabled?: boolean
 };
 
-export const ItemsList: FC<TItemsListProps> = ({ items }) => {
+export const ItemsList: FC<TItemsListProps> = ({ items, disabled }) => {
   const modalRef = useRef<TModalRef | null>(null);
   const [activeItem, setActiveItem] = useState<TItem | null>(null);
 
@@ -30,7 +31,7 @@ export const ItemsList: FC<TItemsListProps> = ({ items }) => {
       <div className={s.List}>
         {items.map((item) => (
           <div key={item.id} className={s.ItemWrapper}>
-            <Item item={item} onClick={handleClick} />
+            <Item item={item} disabled={disabled} onClick={handleClick} />
           </div>
         ))}
       </div>

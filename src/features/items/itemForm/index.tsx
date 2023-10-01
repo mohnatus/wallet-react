@@ -51,7 +51,7 @@ export const ItemForm: FC<TItemFormProps> = ({ item, onSubmit }) => {
   const reset = () => {
     setItemText("");
     setItemPrice("");
-    setItemTag("");
+    setItemTag(tags[tags.length - 1]?.id.toString() || "");
     setItemSubitems([]);
   };
 

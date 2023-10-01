@@ -10,6 +10,7 @@ import s from "./style.module.css";
 
 export type TItemProps = {
   item: TItem;
+  disabled?: boolean;
   onClick: (item: TItem) => void;
 };
 
@@ -17,7 +18,7 @@ export type TSubitemProps = {
   item: TItem;
 };
 
-export const Subitem: FC<TSubitemProps> = ({ item }) => {
+export const Subitem: FC<TSubitemProps> = ({ item,  }) => {
   const tag = useSelector((state: RootState) => selectTagById(state, item.tag));
 
   return (
@@ -35,7 +36,7 @@ export const Subitem: FC<TSubitemProps> = ({ item }) => {
   );
 };
 
-export const Item: FC<TItemProps> = ({ item, onClick }) => {
+export const Item: FC<TItemProps> = ({ item, disabled, onClick }) => {
   const tag = useSelector((state: RootState) => selectTagById(state, item.tag));
 
   const dispatch = useAppDispatch();
@@ -48,7 +49,7 @@ export const Item: FC<TItemProps> = ({ item, onClick }) => {
     <div className={s.Item}>
       <div className={s.Wrapper}>
         <div className={s.Content}>
-          <div className={s.Header} onClick={() => onClick(item)}>
+          <div className={s.Header} >
             <div>
               <div className={s.Text}>{item.text}</div>
               <div className={s.Tag}>#{tag?.name}</div>
@@ -67,6 +68,7 @@ export const Item: FC<TItemProps> = ({ item, onClick }) => {
           )}
         </div>
         <div className={s.Close}>
+          {!disabled && <Button onClick={() => onClick(item)}>Edit</Button>}
           <Button onClick={() => handleRemove(item)}>&times;</Button>
         </div>
       </div>

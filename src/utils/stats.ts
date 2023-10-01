@@ -19,7 +19,7 @@ export function getStats(items: TItem[]) {
     } = item;
 
     const subitemsTotal = subitems.reduce(
-      (total, subitem) => total + subitem.price,
+      (total, subitem) => total + Number(subitem.price),
       0
     );
 
@@ -27,7 +27,7 @@ export function getStats(items: TItem[]) {
       id: itemId,
       text: itemText,
       createdAt: itemCreatedAt,
-      total: itemPrice - subitemsTotal,
+      total: Number(itemPrice) - subitemsTotal,
     });
 
     subitems.forEach((subitem) => {
@@ -43,7 +43,7 @@ export function getStats(items: TItem[]) {
         id: subitemId,
         text: subitemText,
         createdAt: subitemCreatedAt,
-        total: subitemPrice,
+        total: Number(subitemPrice),
       });
     });
   });

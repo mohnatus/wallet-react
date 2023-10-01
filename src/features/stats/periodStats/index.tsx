@@ -7,8 +7,8 @@ import { selectItemsInInterval } from "../../items/itemsSlice";
 import { selectAllTags } from "../../tags/tagsSlice";
 import { getStats } from "../../../utils/stats";
 
-import s from './style.module.css'
-import { formatDate } from "../../../utils/date";
+import s from "./style.module.css";
+import { TagStats } from "./tagStats";
 
 export type TPeriodStatsProps = {
   period?: TPeriod | null;
@@ -36,36 +36,27 @@ export const PeriodStats: FC<TPeriodStatsProps> = ({ period }) => {
 
   sortedTags.sort((a, b) => b.total - a.total);
 
-  console.log({ sortedTags })
-
-  return <div>
-    <table className={s.Table}>
+  return (
+    <div>
+      <table className={s.Table}>
         <thead>
-            <tr>
-                <th>Тег</th>
-                <th>Итого</th>
-                <th>Кол-во</th>
-                <th>Траты</th>
-            </tr>
+          <tr>
+            <th align="left">Тег</th>
+            <th align="right">Итого</th>
+            <th align="right">Кол-во</th>
+          </tr>
         </thead>
         <tbody>
-            {sortedTags.map(tagStats => <tr key={tagStats.tag.id}>
-                <td>
-                    {tagStats.tag.name}
-                </td>
-                <td>
-                    {tagStats.total}
-                </td>
-                <td>
-                    {tagStats.items.length}
-                </td>
-                <td>
-                    {tagStats.items.map(item => <div key={item.id}>
-                        {formatDate(item.createdAt)} - {item.total} ({item.text})
-                    </div>)}
-                </td>
-            </tr>)}
+          {sortedTags.map((tagStats) => (
+            <TagStats
+              key={tagStats.tag.id}
+              tag={tagStats.tag}
+              items={tagStats.items}
+              total={tagStats.total}
+            />
+          ))}
         </tbody>
-    </table>
-  </div>;
+      </table>
+    </div>
+  );
 };

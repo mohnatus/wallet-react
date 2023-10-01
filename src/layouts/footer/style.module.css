@@ -37,4 +37,5 @@
 
 .Action {
   flex-grow: 1;
+  flex-basis: 25%;
 }

@@ -17,7 +17,7 @@ export const Select: FC<TSelectProps> = ({ options, value, onChange }) => {
   return (
     <select className={s.Select} value={value} onChange={(e) => onChange(e.target.value)}>
       {options.map((option) => (
-        <option key={option.id}>{option.text}</option>
+        <option key={option.id} value={option.id}>{option.text}</option>
       ))}
     </select>
   );

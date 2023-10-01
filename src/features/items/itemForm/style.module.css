@@ -1,0 +1,44 @@
+.Wrapper {
+  display: flex;
+  gap: var(--unit-2);
+}
+
+.Price {
+  flex-grow: 1;
+  flex-basis: 50%;
+}
+
+.Tag {
+  flex-grow: 1;
+  flex-basis: 50%;
+}
+
+.AddTag {
+  flex-shrink: 0;
+  margin-top: 24px;
+}
+
+.Subitems {
+  display: flex;
+  flex-direction: column;
+  gap: var(--unit-2);
+  margin: var(--unit-4) 0;
+}
+
+.Subitem {
+  display: flex;
+  gap: var(--unit-4);
+  padding: var(--unit-2) 0;
+}
+
+.Subitem:not(:last-child) {
+  border-bottom: 1px solid var(--border);
+}
+
+.SubitemContent {
+  flex-grow: 1;
+}
+
+.Remove {
+  flex-shrink: 0;
+}

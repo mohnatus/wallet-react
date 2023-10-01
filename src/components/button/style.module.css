@@ -1,5 +1,6 @@
 .Button {
   display: inline-flex;
+  gap: var(--unit-2);
   justify-content: center;
   align-items: center;
   border: none;
@@ -13,6 +14,7 @@
   border-radius: var(--radius);
 
   height: var(--button-size);
+  font-size: var(--button-font-size);
 
   background-color: var(--accent);
   color: white;
@@ -41,15 +43,18 @@
 }
 
 .Large {
-  --button-size: 45px;
+  --button-size: 50px;
+  --button-font-size: 16px;
 }
 
 .Medium {
-  --button-size: 35px;
+  --button-size: 40px;
+  --button-font-size: 14px;
 }
 
 .Small {
   --button-size: 25px;
+  --button-font-size: 12px;
 }
 
 .Block {

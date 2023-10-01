@@ -11,6 +11,7 @@ import s from "./style.module.css";
 import { TagStats } from "./tagStats";
 import { getDiff } from "../../../utils/date";
 import { formatInterval } from "../../../utils/intervals";
+import { decline } from "../../../utils/number";
 
 export type TPeriodStatsProps = {
   period?: TPeriod | null;
@@ -54,17 +55,22 @@ export const PeriodStats: FC<TPeriodStatsProps> = ({ period }) => {
   const total = activeTags.reduce((total, tag) => total + tag.total, 0);
   const count = activeTags.reduce((count, tag) => count + tag.items.length, 0);
 
+  const periodDuration = interval[0] && getDiff(interval[0], interval[1]);
+
   return (
     <div>
-      <div>{formatInterval(interval)}</div>
-      <div>
-        {interval[1] && "Период завершен"}
-        {!interval[0] && !interval[1] && "У текущего периода нет границ"}
-      </div>
-      <div>
-        {interval[0] &&
-          `Длительность периода - ${getDiff(interval[0], interval[1])} дней`}
-      </div>
+      {interval[1] && <div className={s.Message}>Период завершен</div>}
+      {!interval[0] && !interval[1] && (
+        <div className={s.Message}>У текущего периода нет границ</div>
+      )}
+
+      {periodDuration && (
+        <div className={s.Message}>
+          Длительность периода - {periodDuration}{" "}
+          {decline(periodDuration, ["день", "дня", "дней"])}{" "}
+        </div>
+      )}
+
       <table className={s.Table}>
         <thead>
           <tr>
@@ -75,7 +81,7 @@ export const PeriodStats: FC<TPeriodStatsProps> = ({ period }) => {
           </tr>
           <tr>
             <th></th>
-            <th align="left">ИТОГО</th>
+            <th align="left"></th>
             <th align="right">{total}</th>
             <th align="right">{count}</th>
           </tr>

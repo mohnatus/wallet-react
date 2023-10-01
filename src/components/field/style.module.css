@@ -4,7 +4,7 @@
 }
 
 .Field:not(:last-child) {
-  margin-bottom: var(--unit-4);
+  margin-bottom: var(--unit-2);
 }
 
 .Label {

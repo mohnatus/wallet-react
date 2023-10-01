@@ -1,4 +1,11 @@
-import { FC, FormEventHandler, useEffect, useState } from "react";
+import {
+  FC,
+  FormEventHandler,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useAppDispatch } from "../../../store/store";
 import { useSelector } from "react-redux";
 import { TItem, TNewItemData } from "../../../types";
@@ -7,6 +14,17 @@ import { selectWeightedTags } from "../../tags/tagsSlice";
 import { useLocalId } from "../../../hooks/useLocalId";
 import { TLocalSubitem } from "./types";
 import { Subitem } from "./subitem";
+
+import s from "./style.module.css";
+import { Button } from "../../../components/button";
+import { CloseIcon } from "../../../components/icons/close";
+import { Field } from "../../../components/field";
+import { Input } from "../../../components/input";
+import { Select } from "../../../components/select";
+import { PlusIcon } from "../../../components/icons/plus";
+import { TModalRef } from "../../../hooks/useModal";
+import { Modal } from "../../../components/modal";
+import { TagForm } from "../../tags/tagForm";
 
 export type TItemFormProps = {
   item?: TItem | null;
@@ -18,13 +36,24 @@ export const ItemForm: FC<TItemFormProps> = ({ item, onSubmit }) => {
   const tags = useSelector(selectWeightedTags);
 
   const getLocalId = useLocalId();
+  const tagModalRef = useRef<TModalRef | null>(null);
+
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const [itemText, setItemText] = useState("");
   const [itemPrice, setItemPrice] = useState("");
   const [itemTag, setItemTag] = useState("");
   const [itemSubitems, setItemSubitems] = useState<Array<TLocalSubitem>>([]);
 
+  const priceError =
+    isSubmitted && !itemPrice.trim() ? "Обязательное поле" : "";
+
+  const handleAddTag = () => {
+    tagModalRef.current?.open();
+  };
+
   const handleAddSubitem = () => {
+    setIsSubmitted(false);
     setItemSubitems((prev) => [
       ...prev,
       {
@@ -37,26 +66,35 @@ export const ItemForm: FC<TItemFormProps> = ({ item, onSubmit }) => {
   };
 
   const handleChangeSubitem = (subitem: TLocalSubitem) => {
+    setIsSubmitted(false);
     setItemSubitems((prev) =>
       prev.map((s) => (s.id === subitem.id ? subitem : s))
     );
   };
 
   const handleRemoveSubitem = (removedSubitem: TLocalSubitem) => {
+    setIsSubmitted(false);
     setItemSubitems((prev) =>
       prev.filter((subitem) => subitem.id !== removedSubitem.id)
     );
   };
 
-  const reset = () => {
+  const reset = useCallback(() => {
     setItemText("");
     setItemPrice("");
     setItemTag(tags[tags.length - 1]?.id.toString() || "");
     setItemSubitems([]);
-  };
+  }, [tags]);
 
   const handleSubmit: FormEventHandler = (e) => {
     e.preventDefault();
+
+    setIsSubmitted(true);
+
+    console.log({ itemTag });
+
+    if (!itemPrice.trim()) return;
+    if (itemSubitems.some((subitem) => !subitem.price.trim())) return;
 
     const itemData: TNewItemData = {
       text: itemText,
@@ -102,51 +140,78 @@ export const ItemForm: FC<TItemFormProps> = ({ item, onSubmit }) => {
     });
 
     setItemSubitems(subitems);
-  }, [item, getLocalId]);
+  }, [item, getLocalId, reset]);
+
+  useEffect(() => {
+    setIsSubmitted(false);
+  }, [itemText, itemPrice, itemTag]);
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        name="text"
-        value={itemText}
-        onChange={(e) => setItemText(e.target.value)}
-      />
-      <br />
-      <input
-        type="number"
-        name="price"
-        value={itemPrice}
-        onChange={(e) => setItemPrice(e.target.value)}
-      />
-      <br />
-      <select
-        name="tag"
-        value={itemTag}
-        onChange={(e) => setItemTag(e.target.value)}
-      >
-        {tags.map((tag) => (
-          <option key={tag.id} value={tag.id.toString()}>
-            {tag.name}
-          </option>
-        ))}
-      </select>
+    <>
+      <form onSubmit={handleSubmit}>
+        <Field label="Краткое описание">
+          <Input value={itemText} onChange={setItemText} />
+        </Field>
 
-      <div>
-        {itemSubitems.map((subitem) => (
-          <div key={subitem.id}>
-            <Subitem item={subitem} onChange={handleChangeSubitem} />
-            <button type="button" onClick={(e) => handleRemoveSubitem(subitem)}>
-              &times;
-            </button>
-          </div>
-        ))}
+        <div className={s.Wrapper}>
+          <Field label="Цена" className={s.Price} error={priceError}>
+            <Input type="number" value={itemPrice} onChange={setItemPrice} />
+          </Field>
 
-        <button type="button" onClick={handleAddSubitem}>
-          Add subitem
-        </button>
-      </div>
-      <button type="submit">submit</button>
-    </form>
+          <Field label="Тег" className={s.Tag}>
+            <Select
+              value={itemTag}
+              options={tags.map((tag) => ({
+                id: tag.id.toString(),
+                text: tag.name,
+              }))}
+              onChange={setItemTag}
+            />
+          </Field>
+
+          <Button rect className={s.AddTag} onClick={handleAddTag}>
+            <PlusIcon />
+          </Button>
+        </div>
+
+        <div className={s.Subitems}>
+          {itemSubitems.length > 0 && <h3 className={s.Title}>Подтраты</h3>}
+
+          {itemSubitems.map((subitem) => (
+            <div key={subitem.id} className={s.Subitem}>
+              <div className={s.SubitemContent}>
+                <Subitem
+                  item={subitem}
+                  showErrors={isSubmitted}
+                  onChange={handleChangeSubitem}
+                />
+              </div>
+              <div className={s.Remove}>
+                <Button
+                  invert
+                  rect
+                  onClick={() => handleRemoveSubitem(subitem)}
+                >
+                  <CloseIcon />
+                </Button>
+              </div>
+            </div>
+          ))}
+
+          <Button invert onClick={handleAddSubitem}>
+            <PlusIcon width={16} height={16} />
+            Добавить подтрату
+          </Button>
+        </div>
+
+        <Button size="l" type="submit" block>
+          Сохранить
+        </Button>
+      </form>
+
+      <Modal ref={tagModalRef}>
+        <TagForm onSubmit={() => tagModalRef.current?.close()} />
+      </Modal>
+    </>
   );
 };

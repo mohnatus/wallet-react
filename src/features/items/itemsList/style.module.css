@@ -11,16 +11,17 @@
 }
 
 .Item {
-
 }
 
 .Wrapper {
   display: flex;
 }
 
-.Close {
+.Actions {
   flex-shrink: 0;
   margin-left: var(--unit-4);
+  display: flex;
+  gap: var(--unit-2);
 }
 
 .Content {
@@ -33,7 +34,7 @@
 }
 
 .Text {
-
+  margin-top: var(--unit-2);
 }
 
 .Price {
@@ -60,5 +61,9 @@
 }
 
 .Subitem {
+  padding: var(--unit-2) 0;
+}
 
+.Subitem:not(:last-child) {
+  border-bottom: 1px solid var(--border);
 }

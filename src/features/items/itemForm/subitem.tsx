@@ -3,41 +3,51 @@ import { useSelector } from "react-redux";
 import { selectWeightedTags } from "../../tags/tagsSlice";
 import { TLocalSubitem } from "./types";
 
+import s from "./style.module.css";
+import { Field } from "../../../components/field";
+import { Input } from "../../../components/input";
+import { Select } from "../../../components/select";
+
 export type TSubitemProps = {
   item: TLocalSubitem;
+  showErrors: boolean;
   onChange: (item: TLocalSubitem) => void;
 };
 
-export const Subitem: FC<TSubitemProps> = ({ item, onChange }) => {
+export const Subitem: FC<TSubitemProps> = ({ item, showErrors, onChange }) => {
   const tags = useSelector(selectWeightedTags);
+  const priceError =
+    showErrors && !item.price.trim() ? "Обязательное поле" : "";
 
   return (
-    <>
-      <input
-        type="text"
-        name="text"
-        value={item.text}
-        onChange={(e) => onChange({ ...item, text: e.target.value })}
-      />
-      <br />
-      <input
-        type="number"
-        name="price"
-        value={item.price}
-        onChange={(e) => onChange({ ...item, price: e.target.value })}
-      />
-      <br />
-      <select
-        name="tag"
-        value={item.tag}
-        onChange={(e) => onChange({ ...item, tag: e.target.value })}
-      >
-        {tags.map((tag) => (
-          <option key={tag.id} value={tag.id.toString()}>
-            {tag.name}
-          </option>
-        ))}
-      </select>
-    </>
+    <div>
+      <Field label="Краткое описание">
+        <Input
+          value={item.text}
+          onChange={(v) => onChange({ ...item, text: v })}
+        />
+      </Field>
+
+      <div className={s.Wrapper}>
+        <Field label="Цена" className={s.Price} error={priceError}>
+          <Input
+            type="number"
+            value={item.price}
+            onChange={(v) => onChange({ ...item, price: v })}
+          />
+        </Field>
+
+        <Field label="Тег" className={s.Tag}>
+          <Select
+            value={item.tag}
+            options={tags.map((tag) => ({
+              id: tag.id.toString(),
+              text: tag.name,
+            }))}
+            onChange={(v) => onChange({ ...item, tag: v })}
+          />
+        </Field>
+      </div>
+    </div>
   );
 };

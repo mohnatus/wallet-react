@@ -7,6 +7,8 @@ import { removeItem } from "../itemsSlice";
 import { Button } from "../../../components/button";
 
 import s from "./style.module.css";
+import { CloseIcon } from "../../../components/icons/close";
+import { PencilIcon } from "../../../components/icons/pencil";
 
 export type TItemProps = {
   item: TItem;
@@ -18,19 +20,18 @@ export type TSubitemProps = {
   item: TItem;
 };
 
-export const Subitem: FC<TSubitemProps> = ({ item,  }) => {
+export const Subitem: FC<TSubitemProps> = ({ item }) => {
   const tag = useSelector((state: RootState) => selectTagById(state, item.tag));
 
   return (
     <div className={s.Subitem}>
       <div className={s.Content}>
         <div className={s.Header}>
-          <div>
-            <div className={s.Text}>{item.text}</div>
-            <div className={s.Tag}>#{tag?.name}</div>
-          </div>
+          <div className={s.Tag}>#{tag?.name}</div>
           <div className={s.Price}>{item.price}</div>
         </div>
+
+        {item.text && <div className={s.Text}>{item.text}</div>}
       </div>
     </div>
   );
@@ -49,13 +50,12 @@ export const Item: FC<TItemProps> = ({ item, disabled, onClick }) => {
     <div className={s.Item}>
       <div className={s.Wrapper}>
         <div className={s.Content}>
-          <div className={s.Header} >
-            <div>
-              <div className={s.Text}>{item.text}</div>
-              <div className={s.Tag}>#{tag?.name}</div>
-            </div>
+          <div className={s.Header}>
+            <div className={s.Tag}>#{tag?.name}</div>
             <div className={s.Price}>{item.price}</div>
           </div>
+
+          {item.text && <div className={s.Text}>{item.text}</div>}
 
           {item.subitems && item.subitems.length > 0 && (
             <div className={s.Subitems}>
@@ -67,9 +67,15 @@ export const Item: FC<TItemProps> = ({ item, disabled, onClick }) => {
             </div>
           )}
         </div>
-        <div className={s.Close}>
-          {!disabled && <Button onClick={() => onClick(item)}>Edit</Button>}
-          <Button onClick={() => handleRemove(item)}>&times;</Button>
+        <div className={s.Actions}>
+          {!disabled && (
+            <Button invert onClick={() => onClick(item)}>
+              <PencilIcon />
+            </Button>
+          )}
+          <Button onClick={() => handleRemove(item)}>
+            <CloseIcon />
+          </Button>
         </div>
       </div>
     </div>

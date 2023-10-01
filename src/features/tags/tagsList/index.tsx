@@ -5,6 +5,7 @@ import { TTag } from "../../../types";
 
 import s from "./style.module.css";
 import { Button } from "../../../components/button";
+import { CloseIcon } from "../../../components/icons/close";
 
 export const TagsList = () => {
   const dispatch = useAppDispatch();
@@ -20,7 +21,7 @@ export const TagsList = () => {
         <div key={tag.id} className={s.Tag}>
           <div className={s.Name}>{tag.name}</div>
           <Button invert ghost onClick={() => handleRemove(tag)}>
-            &times;
+            <CloseIcon />
           </Button>
         </div>
       ))}

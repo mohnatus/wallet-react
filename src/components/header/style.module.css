@@ -1,23 +1,31 @@
 .Header {
   background-color: var(--accent);
   color: white;
-  padding: var(--unit-2) 0;
   position: sticky;
   top: 0;
   margin-bottom: var(--unit-4);
+  height: 60px;
 }
 
 .Container {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  height: 100%;
 }
 
 .Left {
   display: flex;
+  align-items: center;
   gap: var(--unit-3);
 }
 
 .Title {
   font-weight: bold;
   text-transform: uppercase;
+}
+
+.Subtitle {
+  text-transform: uppercase;
+  font-size: 0.75em;
 }

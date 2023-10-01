@@ -14,6 +14,7 @@ import { Button } from "../../components/button";
 
 import s from "./style.module.css";
 import { Footer } from "../footer";
+import { TagForm } from "../../features/tags/tagForm";
 
 export const Layout: FC<PropsWithChildren> = ({ children }) => {
   const notifications = useSelector(selectNotifications);
@@ -84,7 +85,7 @@ export const Layout: FC<PropsWithChildren> = ({ children }) => {
       </Modal>
 
       <Modal ref={tagModalRef}>
-        <PeriodForm onSubmit={() => tagModalRef.current?.close()} />
+        <TagForm onSubmit={() => tagModalRef.current?.close()} />
       </Modal>
     </div>
   );

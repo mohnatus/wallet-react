@@ -6,6 +6,7 @@ import s from "./style.module.css";
 import { createPortal } from "react-dom";
 import { Button } from "../button";
 import { Mask } from "../mask";
+import { CloseIcon } from "../icons/close";
 
 export const Modal = forwardRef<TModalRef, PropsWithChildren>(
   ({ children }, ref) => {
@@ -20,7 +21,7 @@ export const Modal = forwardRef<TModalRef, PropsWithChildren>(
           <div className={s.Frame}>
             <div className={s.Header}>
               <Button rect onClick={close}>
-                &times;
+                <CloseIcon />
               </Button>
             </div>
             <div className={s.Content}>{children}</div>

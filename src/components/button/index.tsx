@@ -3,6 +3,7 @@ import { FC, MouseEvent, PropsWithChildren } from "react";
 import s from "./style.module.css";
 
 export type TButtonProps = PropsWithChildren & {
+  type?: "button" | "submit";
   className?: string;
   invert?: boolean;
   ghost?: boolean;
@@ -19,7 +20,8 @@ const sizeClass = {
 };
 
 export const Button: FC<TButtonProps> = ({
-  className = '',
+  className = "",
+  type = "button",
   invert,
   ghost,
   rect,
@@ -35,11 +37,11 @@ export const Button: FC<TButtonProps> = ({
     block && s.Block,
     rect && s.Rect,
     sizeClass[size],
-    className
+    className,
   ].filter(Boolean);
 
   return (
-    <button type="button" className={classes.join(" ")} onClick={onClick}>
+    <button type={type} className={classes.join(" ")} onClick={onClick}>
       {children}
     </button>
   );

@@ -1,0 +1,19 @@
+.Field {
+  display: flex;
+  flex-direction: column;
+}
+
+.Field:not(:last-child) {
+  margin-bottom: var(--unit-4);
+}
+
+.Label {
+  font-weight: bold;
+  margin-bottom: var(--unit);
+}
+
+.Error {
+  color: var(--error);
+  font-size: 0.75em;
+  margin-top: var(--unit);
+}

@@ -4,7 +4,7 @@ import { ItemForm } from "../../features/items/itemForm";
 import { Modal } from "../../components/modal";
 
 import s from "./style.module.css";
-import { Container } from "../../components/container";
+import { Container } from "../container";
 import { Button } from "../../components/button";
 import {
   useMatch,
@@ -14,6 +14,11 @@ import {
 } from "react-router-dom";
 import { routes } from "../../constants/routes";
 import { useStatsPage } from "../../hooks/useStatsPage";
+import { ListIcon } from "../../components/icons/list";
+import { StatsIcon } from "../../components/icons/stats";
+import { TagIcon } from "../../components/icons/tag";
+import { CalendarIcon } from "../../components/icons/calendar";
+import { PlusIcon } from "../../components/icons/plus";
 
 export type TFooterProps = {
   onTagsButtonClick: () => void;
@@ -47,27 +52,27 @@ export const Footer: FC<TFooterProps> = ({
         <Container className={s.Container}>
           <div className={s.Action}>
             <Button ghost block onClick={onPeriodsButtonClick}>
-              Periods
+              <CalendarIcon />
             </Button>
           </div>
           <div className={s.Action}>
             <Button ghost block onClick={onTagsButtonClick}>
-              Tags
+              <TagIcon />
             </Button>
           </div>
 
           <button type="button" className={s.Add} onClick={handleAddItem}>
-            +
+            <PlusIcon />
           </button>
 
           <div className={s.Action}>
             {isStatsPage ? (
               <Button ghost block onClick={handleItems}>
-                Items
+                <ListIcon />
               </Button>
             ) : (
               <Button ghost block onClick={handleStats}>
-                Stats
+                <StatsIcon />
               </Button>
             )}
           </div>

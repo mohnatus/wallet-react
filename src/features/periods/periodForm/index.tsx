@@ -5,6 +5,11 @@ import { TNewPeriodData } from "../../../types";
 import { addPeriod, selectAllPeriods } from "../periodsSlice";
 import { formatDate } from "../../../utils/date";
 
+import s from "./style.module.css";
+import { Field } from "../../../components/field";
+import { Input } from "../../../components/input";
+import { Button } from "../../../components/button";
+
 export type TPeriodFormProps = {
   onSubmit?: () => void;
 };
@@ -37,19 +42,13 @@ export const PeriodForm: FC<TPeriodFormProps> = ({ onSubmit }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      {lastPeriod && (
-        <div>
-          Закрыть текущий период. Начат с {formatDate(lastPeriod.createdAt)}
-        </div>
-      )}
-      <input
-        type="text"
-        name="name"
-        value={periodName}
-        onChange={(e) => setPeriodName(e.target.value)}
-      />
-      <br />
-      <button type="submit">submit</button>
+      {lastPeriod && <div className={s.Text}>Текущий период будет закрыт.</div>}
+
+      <Field label="Название нового периода">
+        <Input value={periodName} placeholder="Январь 2025" onChange={setPeriodName} />
+      </Field>
+
+      <Button size="l" block type="submit">Начать новый период</Button>
     </form>
   );
 };

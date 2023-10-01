@@ -19,7 +19,7 @@
 }
 
 .Button:hover {
-  background-color: var(--light);
+  background-color: var(--accent-hover);
 }
 
 .Invert {
@@ -41,11 +41,11 @@
 }
 
 .Large {
-  --button-size: 40px;
+  --button-size: 45px;
 }
 
 .Medium {
-  --button-size: 30px;
+  --button-size: 35px;
 }
 
 .Small {

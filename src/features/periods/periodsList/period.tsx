@@ -7,6 +7,7 @@ import { selectPeriodInterval } from "../periodsSlice";
 
 import s from "./style.module.css";
 import { Button } from "../../../components/button";
+import { CloseIcon } from "../../../components/icons/close";
 
 export type TPeriodProps = {
   period: TPeriod;
@@ -33,7 +34,7 @@ export const Period: FC<TPeriodProps> = ({
         </div>
         <div className={s.Close}>
           <Button rect ghost onClick={() => onRemove(period)}>
-            &times;
+            <CloseIcon />
           </Button>
         </div>
       </div>

@@ -23,8 +23,16 @@
   transform: none;
 }
 
+.Wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
 .Container {
   padding: var(--unit-2) var(--unit-4);
+  overflow: auto;
 }
 
 .Header {

@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { PeriodStats } from "../../features/stats/periodStats";
 import { selectActivePeriod } from "../../features/periods/periodsSlice";
 import { Header } from "../../components/header";
-import { Container } from "../../components/container";
+import { Container } from "../../layouts/container";
 
 export const StatsPage = () => {
   const activePeriod = useSelector(selectActivePeriod);

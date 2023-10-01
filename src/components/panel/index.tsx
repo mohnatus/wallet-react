@@ -4,6 +4,7 @@ import s from "./style.module.css";
 import { TModalRef, useModal } from "../../hooks/useModal";
 import { Button } from "../button";
 import { Mask } from "../mask";
+import { CloseIcon } from "../icons/close";
 
 export type TPanelProps = PropsWithChildren & {
   right?: boolean;
@@ -24,13 +25,15 @@ export const Panel = forwardRef<TModalRef, TPanelProps>(
         {isOpen && <Mask onClick={close} />}
 
         <aside className={classes}>
-          <div className={s.Header}>
-            <Button rect onClick={close}>
-              &times;
-            </Button>
-          </div>
+          <div className={s.Wrapper}>
+            <div className={s.Header}>
+              <Button ghost rect onClick={close}>
+                <CloseIcon />
+              </Button>
+            </div>
 
-          <div className={s.Container}>{children}</div>
+            <div className={s.Container}>{children}</div>
+          </div>
         </aside>
       </>
     );

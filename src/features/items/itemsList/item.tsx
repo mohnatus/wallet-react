@@ -27,7 +27,7 @@ export const Subitem: FC<TSubitemProps> = ({ item }) => {
     <div className={s.Subitem}>
       <div className={s.Content}>
         <div className={s.Header}>
-          <div className={s.Tag}>#{tag?.name}</div>
+          <div className={s.Tag}>{tag?.name}</div>
           <div className={s.Price}>{item.price}</div>
         </div>
 
@@ -51,16 +51,16 @@ export const Item: FC<TItemProps> = ({ item, disabled, onClick }) => {
       <div className={s.Wrapper}>
         <div className={s.Content}>
           <div className={s.Header}>
-            <div className={s.Tag}>#{tag?.name}</div>
-            <div className={s.Price}>{item.price}</div>
+            <div className={s.Progress}>
+              <div className={s.Tag}>{tag?.name}</div>
+              <div className={s.Price}>{item.price}</div>
+            </div>
           </div>
 
           {item.text && <div className={s.Text}>{item.text}</div>}
 
           {item.subitems && item.subitems.length > 0 && (
             <div className={s.Subitems}>
-              <div className={s.SubitemsHeader}>Подтраты:</div>
-
               {item.subitems.map((subitem) => (
                 <Subitem key={subitem.id} item={subitem} />
               ))}
@@ -68,14 +68,15 @@ export const Item: FC<TItemProps> = ({ item, disabled, onClick }) => {
           )}
         </div>
         <div className={s.Actions}>
+          <Button size="s" rect onClick={() => handleRemove(item)}>
+            <CloseIcon width={16} height={16} />
+          </Button>
+
           {!disabled && (
-            <Button invert onClick={() => onClick(item)}>
-              <PencilIcon />
+            <Button rect size="s" onClick={() => onClick(item)}>
+              <PencilIcon width={16} height={16} />
             </Button>
           )}
-          <Button onClick={() => handleRemove(item)}>
-            <CloseIcon />
-          </Button>
         </div>
       </div>
     </div>

@@ -5,6 +5,7 @@ import { TModalRef, useModal } from "../../hooks/useModal";
 import { Button } from "../button";
 import { Mask } from "../mask";
 import { CloseIcon } from "../icons/close";
+import { createPortal } from "react-dom";
 
 export type TPanelProps = PropsWithChildren & {
   right?: boolean;
@@ -20,7 +21,7 @@ export const Panel = forwardRef<TModalRef, TPanelProps>(
       isOpen ? s.Active : "",
     ].join(" ");
 
-    return (
+    return createPortal(
       <>
         {isOpen && <Mask onClick={close} />}
 
@@ -35,7 +36,8 @@ export const Panel = forwardRef<TModalRef, TPanelProps>(
             <div className={s.Container}>{children}</div>
           </div>
         </aside>
-      </>
+      </>,
+      document.getElementById("panels") as HTMLElement
     );
   }
 );

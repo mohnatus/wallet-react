@@ -6,8 +6,10 @@ import { PeriodsList } from "../../features/periods/periodsList";
 import { TModalRef } from "../../hooks/useModal";
 
 import { PeriodForm } from "../../features/periods/periodForm";
-import { Header } from "../../components/header";
+import { Header } from "../header";
 import { Panel } from "../../components/panel";
+import { PlusIcon } from "../../components/icons/plus";
+import { ItemForm } from "../../features/items/itemForm";
 
 import { Modal } from "../../components/modal";
 import { Button } from "../../components/button";
@@ -15,42 +17,37 @@ import { Button } from "../../components/button";
 import s from "./style.module.css";
 import { Footer } from "../footer";
 import { TagForm } from "../../features/tags/tagForm";
+import { useNavigate } from "react-router-dom";
+import { routes } from "../../constants/routes";
 
 export const Layout: FC<PropsWithChildren> = ({ children }) => {
+  const navigate = useNavigate();
+
   const notifications = useSelector(selectNotifications);
 
-  const tagModalRef = useRef<TModalRef | null>(null);
-  const periodModalRef = useRef<TModalRef | null>(null);
-  const tagsPanelRef = useRef<TModalRef | null>(null);
-  const periodsPanelRef = useRef<TModalRef | null>(null);
+  const itemModalRef = useRef<TModalRef | null>(null);
 
-  const handleAddTag = () => {
-    tagModalRef.current?.open();
+  const handleAddItem = () => {
+    itemModalRef.current?.open();
   };
 
-  const handleStartPeriod = () => {
-    periodModalRef.current?.open();
-  };
-
-  const handleToggleTags = () => {
-    tagsPanelRef.current?.toggle();
-  };
-
-  const handleTogglePeriods = () => {
-    periodsPanelRef.current?.toggle();
+  const handleItemSubmit = () => {
+    itemModalRef.current?.close();
+    navigate(routes.root);
   };
 
   return (
     <div>
       <div className={s.Page}>
+        <Header />
+
         <main className={s.Content}>{children}</main>
 
-        <div className={s.Footer}>
-          <Footer
-            onPeriodsButtonClick={handleTogglePeriods}
-            onTagsButtonClick={handleToggleTags}
-          />
-        </div>
+        <button type="button" className={s.Add} onClick={handleAddItem}>
+          <PlusIcon />
+        </button>
+
+        <Footer />
       </div>
 
       <div>
@@ -59,33 +56,8 @@ export const Layout: FC<PropsWithChildren> = ({ children }) => {
         ))}
       </div>
 
-      <Panel ref={periodsPanelRef}>
-        <Button
-          block
-          size="l"
-          className={s.PanelAction}
-          onClick={handleStartPeriod}
-        >
-          Start period
-        </Button>
-
-        <PeriodsList onSelect={() => periodsPanelRef.current?.close()} />
-      </Panel>
-
-      <Panel ref={tagsPanelRef}>
-        <Button block size="l" className={s.PanelAction} onClick={handleAddTag}>
-          Add tag
-        </Button>
-
-        <TagsList />
-      </Panel>
-
-      <Modal ref={periodModalRef}>
-        <PeriodForm onSubmit={() => periodModalRef.current?.close()} />
-      </Modal>
-
-      <Modal ref={tagModalRef}>
-        <TagForm onSubmit={() => tagModalRef.current?.close()} />
+      <Modal ref={itemModalRef}>
+        <ItemForm onSubmit={handleItemSubmit} />
       </Modal>
     </div>
   );

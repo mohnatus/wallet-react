@@ -102,3 +102,4 @@ export const selectPeriodInterval = createSelector(
     return [period.createdAt, nextPeriod?.createdAt || null] as TInterval;
   }
 );
+

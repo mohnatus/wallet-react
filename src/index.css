@@ -15,6 +15,12 @@
 
   --header: 1.5rem;
   --header-2: 1.25rem;
+
+  --add-button-index: 5;
+  --panels-container-index: 9;
+  --modals-container-index: 10;
+  --mask-index: 15;
+  --modal-index: 20;
 }
 
 * {
@@ -34,4 +40,14 @@ body {
 h1 {
   font-size: var(--header);
   margin: 1rem 0;
+}
+
+#panels {
+  position: relative;
+  z-index: var(--panels-container-index);
+}
+
+#modals {
+  position: relative;
+  z-index: var(--modals-container-index);
 }

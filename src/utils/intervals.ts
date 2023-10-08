@@ -8,8 +8,9 @@ export function getInterval(
   return [period1?.createdAt || null, period2?.createdAt || null];
 }
 
-export function formatInterval([period1, period2]: TInterval) {
-  const from = period1 ? formatDate(period1) : "...";
+export function formatInterval([period1, period2]: TInterval, start?: number) {
+  const fromMoment = period1 || start;
+  const from = fromMoment ? formatDate(fromMoment) : "...";
   const to = period2 ? formatDate(period2) : "...";
 
   return `${from}-${to}`;

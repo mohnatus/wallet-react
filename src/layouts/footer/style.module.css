@@ -20,27 +20,5 @@
   height: 100%;
 }
 
-.Add {
-  width: 70px;
-  height: 70px;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: -40px;
-  border-radius: 50%;
-  border: none;
-  outline: none;
-  padding: 0;
-  background-color: var(--accent);
-  border: 5px solid;
-  color: white;
-  font-size: 50px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
 .Action {
-  flex-grow: 1;
-  flex-basis: 25%;
 }

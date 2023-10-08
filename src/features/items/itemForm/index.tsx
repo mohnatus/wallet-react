@@ -42,7 +42,7 @@ export const ItemForm: FC<TItemFormProps> = ({ item, onSubmit }) => {
 
   const [itemText, setItemText] = useState("");
   const [itemPrice, setItemPrice] = useState("");
-  const [itemTag, setItemTag] = useState("");
+  const [itemTag, setItemTag] = useState(tags[0]?.id.toString());
   const [itemSubitems, setItemSubitems] = useState<Array<TLocalSubitem>>([]);
 
   const priceError =
@@ -80,11 +80,13 @@ export const ItemForm: FC<TItemFormProps> = ({ item, onSubmit }) => {
   };
 
   const reset = useCallback(() => {
+    console.log("reset")
     setItemText("");
     setItemPrice("");
     setItemTag(tags[tags.length - 1]?.id.toString() || "");
     setItemSubitems([]);
-  }, [tags]);
+    // eslint-disable-next-line
+  }, []);
 
   const handleSubmit: FormEventHandler = (e) => {
     e.preventDefault();

@@ -3,8 +3,9 @@ import {
   createEntityAdapter,
   PayloadAction,
   createSelector,
+  createAsyncThunk,
 } from "@reduxjs/toolkit";
-import { TItem, TNewItemData, TInterval } from '../../types';
+import { TItem, TNewItemData, TInterval } from "../../types";
 import { Progress } from "../../constants/progress";
 import { addItemToDb, removeItemFromDb, updateItemInDb } from "../../db";
 import { RootState } from "../../store/store";
@@ -28,9 +29,9 @@ export const itemsSlice = createSlice({
       itemsAdapter.setAll(state, items);
       state.status = Progress.success;
       const lastId = items.reduce((max, item) => {
-        const { id, subitems = []} = item;
-        return Math.max(id, ...subitems.map(subitem => subitem.id))
-      }, 0)
+        const { id, subitems = [] } = item;
+        return Math.max(id, ...subitems.map((subitem) => subitem.id));
+      }, 0);
       if (items.length) state.lastId = lastId;
     },
     addItem(state, action: PayloadAction<TNewItemData>) {
@@ -88,15 +89,15 @@ export const itemsSlice = createSlice({
           };
 
           return subitem;
-        })
-      }
+        }),
+      };
 
       itemsAdapter.updateOne(state, {
         id: item.id,
         changes: updatedItem,
       });
 
-      updateItemInDb(updatedItem)
+      updateItemInDb(updatedItem);
     },
     removeItem(state, action: PayloadAction<TItem>) {
       itemsAdapter.removeOne(state, action.payload.id);
@@ -155,3 +156,11 @@ export const selectItemsInInterval = createSelector(
   }
 );
 
+export const selectFirstItemDate = createSelector(
+  [selectFlatItems],
+  (items) => {
+    const sortedItems = [...items];
+    sortedItems.sort((a, b) => a.createdAt - b.createdAt);
+    return sortedItems[0]?.createdAt || +new Date();
+  }
+);

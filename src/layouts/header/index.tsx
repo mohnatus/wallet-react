@@ -28,6 +28,7 @@ export const Header = () => {
   const interval = useSelector(selectActiveInterval);
   const activePeriod = useSelector(selectActivePeriod);
   const lastPeriodId = useSelector(selectLastPeriodId);
+
   const periodModalRef = useRef<TModalRef | null>(null);
   const periodsPanelRef = useRef<TModalRef | null>(null);
   const tagModalRef = useRef<TModalRef | null>(null);

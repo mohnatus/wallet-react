@@ -34,10 +34,28 @@ const router = createBrowserRouter([
 ]);
 
 initDB().then(({ tags, items, periods }) => {
+  if (!periods.length) {
+    const firstItemDate = items.reduce((min, item) => {
+      let minDate = Math.min(min, item.createdAt);
+
+      (item.subitems || []).forEach((subitem) => {
+        minDate = Math.min(minDate, subitem.createdAt);
+      });
+
+      return minDate;
+    }, +new Date());
+
+    periods.push({
+      id: 0,
+      createdAt: firstItemDate,
+      name: "Начало",
+    });
+  }
+
   store.dispatch(setItems(items));
-  store.dispatch(setTags(tags))
-  store.dispatch(setPeriods(periods))
-})
+  store.dispatch(setTags(tags));
+  store.dispatch(setPeriods(periods));
+});
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

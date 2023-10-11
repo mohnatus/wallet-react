@@ -155,12 +155,3 @@ export const selectItemsInInterval = createSelector(
     });
   }
 );
-
-export const selectFirstItemDate = createSelector(
-  [selectFlatItems],
-  (items) => {
-    const sortedItems = [...items];
-    sortedItems.sort((a, b) => a.createdAt - b.createdAt);
-    return sortedItems[0]?.createdAt || +new Date();
-  }
-);

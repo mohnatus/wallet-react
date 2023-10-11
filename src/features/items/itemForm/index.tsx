@@ -42,7 +42,7 @@ export const ItemForm: FC<TItemFormProps> = ({ item, onSubmit }) => {
 
   const [itemText, setItemText] = useState("");
   const [itemPrice, setItemPrice] = useState("");
-  const [itemTag, setItemTag] = useState(tags[0]?.id.toString());
+  const [itemTag, setItemTag] = useState(tags[0]?.id.toString() || "");
   const [itemSubitems, setItemSubitems] = useState<Array<TLocalSubitem>>([]);
 
   const priceError =
@@ -60,7 +60,7 @@ export const ItemForm: FC<TItemFormProps> = ({ item, onSubmit }) => {
         id: getLocalId(),
         text: "",
         price: "",
-        tag: tags[0]?.id.toString(),
+        tag: tags[0]?.id.toString() || "",
       },
     ]);
   };
@@ -80,10 +80,9 @@ export const ItemForm: FC<TItemFormProps> = ({ item, onSubmit }) => {
   };
 
   const reset = useCallback(() => {
-    console.log("reset")
     setItemText("");
     setItemPrice("");
-    setItemTag(tags[tags.length - 1]?.id.toString() || "");
+    setItemTag(tags[0]?.id.toString() || "");
     setItemSubitems([]);
     // eslint-disable-next-line
   }, []);
@@ -92,8 +91,6 @@ export const ItemForm: FC<TItemFormProps> = ({ item, onSubmit }) => {
     e.preventDefault();
 
     setIsSubmitted(true);
-
-    console.log({ itemTag });
 
     if (!itemPrice.trim()) return;
     if (itemSubitems.some((subitem) => !subitem.price.trim())) return;

@@ -1,14 +1,14 @@
-import { FC } from "react";
-import { TItem } from "../../../types";
+import { FC, MouseEventHandler, useState } from "react";
+import { TItem, TTag } from "../../../types";
 import { useSelector } from "react-redux";
 import { selectTagById } from "../../tags/tagsSlice";
 import { RootState, useAppDispatch } from "../../../store/store";
 import { removeItem } from "../itemsSlice";
 import { Button } from "../../../components/button";
+import { CloseIcon } from "../../../components/icons/close";
+import { formatDate } from "../../../utils/date";
 
 import s from "./style.module.css";
-import { CloseIcon } from "../../../components/icons/close";
-import { PencilIcon } from "../../../components/icons/pencil";
 
 export type TItemProps = {
   item: TItem;
@@ -27,56 +27,77 @@ export const Subitem: FC<TSubitemProps> = ({ item }) => {
     <div className={s.Subitem}>
       <div className={s.Content}>
         <div className={s.Header}>
-          <div className={s.Tag}>{tag?.name}</div>
+          <div className={s.Name}>
+            <div className={s.Tag}>{tag?.name}</div>
+            {item.text && <div className={s.Text}>{item.text}</div>}
+          </div>
+
           <div className={s.Price}>{item.price}</div>
         </div>
-
-        {item.text && <div className={s.Text}>{item.text}</div>}
       </div>
     </div>
   );
 };
 
 export const Item: FC<TItemProps> = ({ item, disabled, onClick }) => {
-  const tag = useSelector((state: RootState) => selectTagById(state, item.tag));
+  const tag = useSelector((state: RootState) =>
+    selectTagById(state, item.tag)
+  ) as TTag;
 
   const dispatch = useAppDispatch();
+
+  const [isSubitemsOpen, setIsSubitemsOpen] = useState(false);
+
+  const handleToggle: MouseEventHandler = (e) => {
+    e.stopPropagation();
+    setIsSubitemsOpen((prev) => !prev);
+  };
 
   const handleRemove = (item: TItem) => {
     dispatch(removeItem(item));
   };
 
+  const hasSubitems = item.subitems && item.subitems.length > 0;
+
+  const SubitemsList = (
+    <div className={s.Subitems}>
+      {(item.subitems || []).map((subitem) => (
+        <Subitem key={subitem.id} item={subitem} />
+      ))}
+    </div>
+  );
+
   return (
     <div className={s.Item}>
       <div className={s.Wrapper}>
         <div className={s.Content}>
-          <div className={s.Header}>
-            <div className={s.Progress}>
-              <div className={s.Tag}>{tag?.name}</div>
-              <div className={s.Price}>{item.price}</div>
+          <div className={s.Header} onClick={() => onClick(item)}>
+            <div className={s.Name}>
+              <div className={s.Tag}>{tag.name}</div>
+              {item.text && (
+                <div className={s.Text}>
+                  <span>{item.text}</span>
+                </div>
+              )}
             </div>
+
+            <div className={s.Price}>{item.price}</div>
           </div>
 
-          {item.text && <div className={s.Text}>{item.text}</div>}
+          {hasSubitems && isSubitemsOpen && SubitemsList}
 
-          {item.subitems && item.subitems.length > 0 && (
-            <div className={s.Subitems}>
-              {item.subitems.map((subitem) => (
-                <Subitem key={subitem.id} item={subitem} />
-              ))}
-            </div>
+          {hasSubitems && (
+            <Button size="s" invert ghost onClick={handleToggle}>
+              {isSubitemsOpen ? "Скрыть подтраты" : "Показать подтраты"}
+            </Button>
           )}
+
+          <div className={s.CreatedAt}>{formatDate(item.createdAt)}</div>
         </div>
         <div className={s.Actions}>
           <Button size="s" rect onClick={() => handleRemove(item)}>
             <CloseIcon width={16} height={16} />
           </Button>
-
-          {!disabled && (
-            <Button rect size="s" onClick={() => onClick(item)}>
-              <PencilIcon width={16} height={16} />
-            </Button>
-          )}
         </div>
       </div>
     </div>

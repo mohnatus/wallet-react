@@ -27,6 +27,7 @@
 
 .Content {
   flex-grow: 1;
+  overflow: hidden;
 }
 
 .Header {
@@ -37,9 +38,19 @@
   gap: var(--unit-2);
 }
 
+.Name {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--unit-2);
+  overflow: hidden;
+  width: 100%;
+}
+
 .Text {
-  margin-top: var(--unit-2);
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .Price {
@@ -56,12 +67,14 @@
   color: white;
   padding: var(--unit);
   border-radius: var(--radius);
+  flex-shrink: 0;
+  max-width: 100px;
 }
 
 .Subitems {
   margin-top: var(--unit);
   padding: var(--unit-2) 0 0 var(--unit-4);
-  border-top: 1px solid var(--border);
+  margin-bottom: var(--unit);
 }
 
 .Subitem {
@@ -70,4 +83,10 @@
 
 .Subitem:not(:last-child) {
   border-bottom: 1px solid var(--border);
+}
+
+.CreatedAt {
+  font-size: 0.75em;
+  color: var(--service);
+  margin-top: var(--unit-2);
 }

@@ -18,9 +18,10 @@ export type TTag = {
   id: number;
   name: string;
   createdAt: number;
+  limit?: number;
 };
 
-export type TNewTagData = Pick<TTag, "name">;
+export type TNewTagData = Pick<TTag, "name" | "limit">;
 
 export type TPeriod = {
   id: number;

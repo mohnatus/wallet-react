@@ -2,8 +2,8 @@
   position: fixed;
   top: 0;
   bottom: 0;
-  width: 300px;
-  max-width: 75vw;
+  width: 400px;
+  max-width: 90vw;
   background: rgba(0, 0, 0, 0.85);
   color: white;
   transition: transform 250ms ease-in-out;

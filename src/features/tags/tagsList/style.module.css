@@ -1,18 +1,15 @@
 .List {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--unit-2);
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
 }
 
-.Tag {
-  padding: var(--unit) var(--unit-2);
-  display: flex;
-  align-items: center;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  font-size: 0.75rem;
+.List td,
+.List th {
+  padding: var(--unit-2);
+  border-bottom: 1px solid var(--border);
 }
 
-.Name {
-  margin-right: var(--unit-3);
+.List th {
+  font-weight: bold;
 }

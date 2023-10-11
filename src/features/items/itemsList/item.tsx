@@ -3,12 +3,13 @@ import { TItem, TTag } from "../../../types";
 import { useSelector } from "react-redux";
 import { selectTagById } from "../../tags/tagsSlice";
 import { RootState, useAppDispatch } from "../../../store/store";
-import { removeItem } from "../itemsSlice";
+import { removeItem, selectActiveItemsByTag } from "../itemsSlice";
 import { Button } from "../../../components/button";
 import { CloseIcon } from "../../../components/icons/close";
 import { formatDate } from "../../../utils/date";
 
 import s from "./style.module.css";
+import { Progress } from "../../../components/progress";
 
 export type TItemProps = {
   item: TItem;
@@ -34,6 +35,10 @@ export const Subitem: FC<TSubitemProps> = ({ item }) => {
 
           <div className={s.Price}>{item.price}</div>
         </div>
+
+        <div className={s.Progress}>
+          <Progress tag={item.tag} />
+        </div>
       </div>
     </div>
   );
@@ -43,8 +48,6 @@ export const Item: FC<TItemProps> = ({ item, disabled, onClick }) => {
   const tag = useSelector((state: RootState) =>
     selectTagById(state, item.tag)
   ) as TTag;
-
-  console.log({ item, tag })
 
   const dispatch = useAppDispatch();
 
@@ -84,6 +87,10 @@ export const Item: FC<TItemProps> = ({ item, disabled, onClick }) => {
             </div>
 
             <div className={s.Price}>{item.price}</div>
+          </div>
+
+          <div className={s.Progress}>
+            <Progress tag={item.tag} />
           </div>
 
           {hasSubitems && isSubitemsOpen && SubitemsList}

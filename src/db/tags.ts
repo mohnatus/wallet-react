@@ -14,6 +14,19 @@ export function addTagToDb(tag: TTag) {
   };
 }
 
+export async function updateTagInDb(item: TTag): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const tags = getStore(TAGS_STORE_NAME, true);
+    let request = tags.put(item);
+    request.onsuccess = function () {
+      resolve();
+    };
+    request.onerror = function () {
+      reject(request.error);
+    };
+  });
+}
+
 export function removeTagFromDb(tag: TTag) {
   let tags = getStore(TAGS_STORE_NAME, true);
   let request = tags.delete(tag.id);

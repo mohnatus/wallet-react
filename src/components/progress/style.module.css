@@ -1,0 +1,29 @@
+.Root {
+  width: 100%;
+  height: 5px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  position: relative;
+  overflow: hidden;
+}
+
+.Line {
+  position: absolute;
+  left: -1px;
+  top: -1px;
+  bottom: -1px;
+  background-color: var(--accent);
+  border-radius: 5px;
+}
+
+.Red {
+  background-color: red;
+}
+
+.Orange {
+  background-color: orange;
+}
+
+.Yellow {
+  background-color: yellow;
+}

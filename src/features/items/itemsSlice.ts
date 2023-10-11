@@ -143,6 +143,20 @@ export const selectActiveItems = createSelector(
   }
 );
 
+export const selectActiveFlatItems = createSelector([selectActiveItems], (items) => {
+  const result: TItem[] = [];
+  items.forEach((item) => {
+    result.push(item);
+    result.push(...(item.subitems || []));
+  });
+  return result;
+});
+
+export const selectActiveItemsByTag = createSelector(
+  [selectActiveFlatItems, (state: RootState, tagId: number) => tagId],
+  (items, tagId) => items.filter((item) => item.tag === tagId)
+);
+
 export const selectItemsInInterval = createSelector(
   [selectAllItems, (state: RootState, interval: TInterval) => interval],
   (items: TItem[], interval: TInterval) => {

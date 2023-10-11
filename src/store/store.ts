@@ -3,6 +3,7 @@ import itemsReducer from "../features/items/itemsSlice";
 import tagsSlice from "../features/tags/tagsSlice";
 import periodsSlice from "../features/periods/periodsSlice";
 import notifierSlice from "../features/notifier/notifierSlice";
+
 import { useDispatch } from "react-redux";
 
 const store = configureStore({
@@ -10,7 +11,7 @@ const store = configureStore({
     items: itemsReducer,
     tags: tagsSlice,
     periods: periodsSlice,
-    notifier: notifierSlice
+    notifier: notifierSlice,
   },
 });
 
@@ -19,4 +20,4 @@ export default store;
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
-export const useAppDispatch = () => useDispatch<AppDispatch>()
+export const useAppDispatch = () => useDispatch<AppDispatch>();

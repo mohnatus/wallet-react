@@ -71,6 +71,10 @@
   max-width: 100px;
 }
 
+.Progress {
+  margin-top: var(--unit-2);
+}
+
 .Subitems {
   margin-top: var(--unit);
   padding: var(--unit-2) 0 0 var(--unit-4);

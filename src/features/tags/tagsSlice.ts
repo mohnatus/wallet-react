@@ -6,7 +6,7 @@ import {
 } from "@reduxjs/toolkit";
 import { TNewTagData, TTag } from "../../types";
 import { Progress } from "../../constants/progress";
-import { addTagToDb, removeTagFromDb } from "../../db";
+import { addTagToDb, removeTagFromDb, updateTagInDb } from "../../db";
 import { RootState } from "../../store/store";
 import { selectFlatItems } from "../items/itemsSlice";
 
@@ -39,6 +39,16 @@ export const tagsSlice = createSlice({
       tagsAdapter.addOne(state, tag);
       addTagToDb(tag);
     },
+    updateTag(state, action: PayloadAction<{ tag: TTag; data: TNewTagData }>) {
+      const { tag, data } = action.payload;
+      const updatedTag: TTag = {
+        ...tag,
+        ...data,
+      };
+      tagsAdapter.updateOne(state, { id: tag.id, changes: updatedTag });
+
+      updateTagInDb(updatedTag);
+    },
     removeTag(state, action: PayloadAction<TTag>) {
       tagsAdapter.removeOne(state, action.payload.id);
       removeTagFromDb(action.payload);
@@ -48,7 +58,7 @@ export const tagsSlice = createSlice({
 
 export default tagsSlice.reducer;
 
-export const { setTags, addTag, removeTag } = tagsSlice.actions;
+export const { setTags, addTag, updateTag, removeTag } = tagsSlice.actions;
 
 export const {
   selectAll: selectAllTags,
@@ -66,7 +76,6 @@ export const selectTagsWeight = createSelector(
     items.forEach((item) => {
       weight[item.tag] += 1;
     });
-    console.log({tags, items, weight})
     return weight;
   }
 );
@@ -74,7 +83,6 @@ export const selectTagsWeight = createSelector(
 export const selectWeightedTags = createSelector(
   [selectAllTags, selectTagsWeight],
   (tags, weight) => {
-    console.log(tags, weight)
     tags.sort((a, b) => weight[b.id] - weight[a.id]);
     return tags;
   }

@@ -3,7 +3,7 @@
   top: 0;
   bottom: 0;
   width: 300px;
-  max-width: 50vw;
+  max-width: 75vw;
   background: rgba(0, 0, 0, 0.85);
   color: white;
   transition: transform 250ms ease-in-out;

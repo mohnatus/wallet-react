@@ -44,6 +44,8 @@ export const Item: FC<TItemProps> = ({ item, disabled, onClick }) => {
     selectTagById(state, item.tag)
   ) as TTag;
 
+  console.log({ item, tag })
+
   const dispatch = useAppDispatch();
 
   const [isSubitemsOpen, setIsSubitemsOpen] = useState(false);

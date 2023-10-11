@@ -47,6 +47,7 @@ export const ItemForm: FC<TItemFormProps> = ({ item, onSubmit }) => {
 
   const priceError =
     isSubmitted && !itemPrice.trim() ? "Обязательное поле" : "";
+  const tagError = isSubmitted && !itemTag ? "Обязательное поле" : "";
 
   const handleAddTag = () => {
     tagModalRef.current?.open();
@@ -93,7 +94,10 @@ export const ItemForm: FC<TItemFormProps> = ({ item, onSubmit }) => {
     setIsSubmitted(true);
 
     if (!itemPrice.trim()) return;
+    if (!itemTag) return;
+
     if (itemSubitems.some((subitem) => !subitem.price.trim())) return;
+    if (itemSubitems.some((subitem) => !subitem.tag)) return;
 
     const itemData: TNewItemData = {
       text: itemText,
@@ -157,13 +161,14 @@ export const ItemForm: FC<TItemFormProps> = ({ item, onSubmit }) => {
             <Input type="number" value={itemPrice} onChange={setItemPrice} />
           </Field>
 
-          <Field label="Тег" className={s.Tag}>
+          <Field label="Тег" className={s.Tag} error={tagError}>
             <Select
               value={itemTag}
               options={tags.map((tag) => ({
                 id: tag.id.toString(),
                 text: tag.name,
               }))}
+              emptyOption
               onChange={setItemTag}
             />
           </Field>

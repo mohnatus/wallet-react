@@ -1,6 +1,7 @@
 .Table {
-  max-width: 100%;
+  width: 100%;
   min-width: 50%;
+  max-width: 500px;
   table-layout: fixed;
   border-collapse: collapse;
 }

@@ -18,6 +18,7 @@ export const Subitem: FC<TSubitemProps> = ({ item, showErrors, onChange }) => {
   const tags = useSelector(selectWeightedTags);
   const priceError =
     showErrors && !item.price.trim() ? "Обязательное поле" : "";
+  const tagError = showErrors && !item.tag ? "Обязательное поле" : "";
 
   return (
     <div>
@@ -37,13 +38,14 @@ export const Subitem: FC<TSubitemProps> = ({ item, showErrors, onChange }) => {
           />
         </Field>
 
-        <Field label="Тег" className={s.Tag}>
+        <Field label="Тег" className={s.Tag} error={tagError}>
           <Select
             value={item.tag}
             options={tags.map((tag) => ({
               id: tag.id.toString(),
               text: tag.name,
             }))}
+            emptyOption
             onChange={(v) => onChange({ ...item, tag: v })}
           />
         </Field>

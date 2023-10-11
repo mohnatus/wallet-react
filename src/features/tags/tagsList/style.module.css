@@ -10,8 +10,9 @@
   align-items: center;
   border: 1px solid var(--border);
   border-radius: var(--radius);
+  font-size: 0.75rem;
 }
 
 .Name {
-  margin-right: var(--unit-2);
+  margin-right: var(--unit-3);
 }

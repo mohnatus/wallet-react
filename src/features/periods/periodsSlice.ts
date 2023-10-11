@@ -26,14 +26,6 @@ export const periodsSlice = createSlice({
     setPeriods(state, action: PayloadAction<TPeriod[]>) {
       const periods = [...action.payload];
 
-      if (!periods.length || periods[0].createdAt !== null) {
-        periods.unshift({
-          id: 0,
-          createdAt: null,
-          name: "Начальный период",
-        });
-      }
-
       periodsAdapter.setAll(state, periods);
       state.status = Progress.success;
 

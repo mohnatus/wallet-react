@@ -26,6 +26,9 @@ export const TagStats: FC<TTagStatsProps> = ({
     setOpened((prev) => !prev);
   };
 
+  const sortedItems = [...items];
+  sortedItems.sort((a, b) => b.createdAt - a.createdAt);
+
   return (
     <>
       <tr>
@@ -53,7 +56,7 @@ export const TagStats: FC<TTagStatsProps> = ({
 
             {opened && (
               <div className={s.Subitems}>
-                {items.map((item) => (
+                {sortedItems.map((item) => (
                   <div key={item.id}>
                     {formatDate(item.createdAt)} - {item.total}{" "}
                     {item.text && <span>({item.text})</span>}

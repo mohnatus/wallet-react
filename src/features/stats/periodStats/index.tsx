@@ -6,12 +6,11 @@ import { RootState } from "../../../store/store";
 import { selectItemsInInterval } from "../../items/itemsSlice";
 import { selectAllTags } from "../../tags/tagsSlice";
 import { getStats } from "../../../utils/stats";
-
-import s from "./style.module.css";
 import { TagStats } from "./tagStats";
 import { getDiff } from "../../../utils/date";
-import { formatInterval } from "../../../utils/intervals";
 import { decline } from "../../../utils/number";
+
+import s from "./style.module.css";
 
 export type TPeriodStatsProps = {
   period?: TPeriod | null;
@@ -21,6 +20,7 @@ export const PeriodStats: FC<TPeriodStatsProps> = ({ period }) => {
   const interval = useSelector((state: RootState) =>
     selectPeriodInterval(state, period)
   );
+
   const items = useSelector((state: RootState) =>
     selectItemsInInterval(state, interval)
   );
@@ -55,16 +55,15 @@ export const PeriodStats: FC<TPeriodStatsProps> = ({ period }) => {
   const total = activeTags.reduce((total, tag) => total + tag.total, 0);
   const count = activeTags.reduce((count, tag) => count + tag.items.length, 0);
 
-  const periodDuration = interval[0] && getDiff(interval[0], interval[1]);
+  const periodDuration = (interval[0] && getDiff(interval[0], interval[1])) || 0;
+
+  const isFinished = !!interval[1];
 
   return (
     <div>
-      {interval[1] && <div className={s.Message}>Период завершен</div>}
-      {!interval[0] && !interval[1] && (
-        <div className={s.Message}>У текущего периода нет границ</div>
-      )}
+      {isFinished && <div className={s.Message}>Период завершен</div>}
 
-      {periodDuration && (
+      {periodDuration > 0 && (
         <div className={s.Message}>
           Длительность периода - {periodDuration}{" "}
           {decline(periodDuration, ["день", "дня", "дней"])}{" "}

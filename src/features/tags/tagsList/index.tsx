@@ -20,8 +20,8 @@ export const TagsList = () => {
       {tags.map((tag) => (
         <div key={tag.id} className={s.Tag}>
           <div className={s.Name}>{tag.name}</div>
-          <Button invert ghost onClick={() => handleRemove(tag)}>
-            <CloseIcon />
+          <Button invert ghost size="m" onClick={() => handleRemove(tag)}>
+            <CloseIcon width={12} height={12} />
           </Button>
         </div>
       ))}

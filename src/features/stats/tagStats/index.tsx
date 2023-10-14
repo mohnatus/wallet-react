@@ -57,6 +57,7 @@ export const TagStats: FC<TTagStatsProps> = ({ tag }) => {
 
   return (
     <div>
+      <h2>{tag.name}</h2>
       <Line options={chartOptions} data={chartData} />
     </div>
   );

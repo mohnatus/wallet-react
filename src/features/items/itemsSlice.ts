@@ -55,11 +55,32 @@ export const itemsSlice = createSlice({
           })
         : [];
 
+      const subitemsList: TItem[] = [];
+
+      itemSubitemsList.forEach((subitem) => {
+        const { tag, text, price } = subitem;
+        if (text) {
+          subitemsList.push(subitem);
+          return;
+        }
+
+        const double = subitemsList.find((i) => {
+          return i.tag === tag && !i.text;
+        });
+
+        if (!double) {
+          subitemsList.push(subitem);
+          return;
+        }
+
+        double.price += price;
+      });
+
       const item: TItem = {
         id: state.lastId,
         createdAt,
         ...itemData,
-        subitems: itemSubitemsList,
+        subitems: subitemsList,
       };
       itemsAdapter.addOne(state, item);
       addItemToDb(item);

@@ -66,7 +66,7 @@ export const TagsList = () => {
                 <span>{tag.name}</span>
               </td>
               <td align="right" onClick={() => handleEdit(tag)}>
-                <span>{tag.limit}</span>
+                <span>{tag.limit || ''}</span>
               </td>
               <td align="right" width="30">
                 <Button invert ghost size="m" onClick={() => handleStats(tag)}>s</Button>

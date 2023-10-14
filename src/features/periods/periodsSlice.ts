@@ -8,6 +8,7 @@ import { TInterval, TNewPeriodData, TPeriod } from "../../types";
 import { Progress } from "../../constants/progress";
 import { addPeriodToDb, removePeriodFromDb } from "../../db";
 import { RootState } from "../../store/store";
+import { getInterval } from "../../utils/intervals";
 
 const periodsAdapter = createEntityAdapter<TPeriod>({
   sortComparer: (a, b) => a.id - b.id,
@@ -91,7 +92,16 @@ export const selectPeriodInterval = createSelector(
     const index = periods.findIndex((p) => p.id === period.id);
     if (index === -1) return [null, null] as TInterval;
     const nextPeriod = periods[index + 1];
-    return [period.createdAt, nextPeriod?.createdAt || null] as TInterval;
+    return getInterval(period, nextPeriod);
   }
 );
 
+export const selectIntervals = createSelector([selectAllPeriods], (periods) => {
+  return periods.map((period, i) => {
+    const nextPeriod = periods[i + 1];
+    return {
+      period,
+      interval: getInterval(period, nextPeriod),
+    };
+  });
+});

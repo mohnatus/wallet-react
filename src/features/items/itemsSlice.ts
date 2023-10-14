@@ -3,7 +3,6 @@ import {
   createEntityAdapter,
   PayloadAction,
   createSelector,
-  createAsyncThunk,
 } from "@reduxjs/toolkit";
 import { TItem, TNewItemData, TInterval } from "../../types";
 import { Progress } from "../../constants/progress";
@@ -119,8 +118,13 @@ export const {
 export const selectFlatItems = createSelector([selectAllItems], (items) => {
   const result: TItem[] = [];
   items.forEach((item) => {
-    result.push(item);
-    result.push(...(item.subitems || []));
+    const { price, subitems = [] } = item;
+    const subitemsPrice = subitems.reduce((total, i) => total + i.price, 0);
+    result.push({
+      ...item,
+      price: price - subitemsPrice,
+    });
+    result.push(...subitems);
   });
   return result;
 });
@@ -143,14 +147,23 @@ export const selectActiveItems = createSelector(
   }
 );
 
-export const selectActiveFlatItems = createSelector([selectActiveItems], (items) => {
-  const result: TItem[] = [];
-  items.forEach((item) => {
-    result.push(item);
-    result.push(...(item.subitems || []));
-  });
-  return result;
-});
+export const selectActiveFlatItems = createSelector(
+  [selectActiveItems],
+  (items) => {
+    const result: TItem[] = [];
+
+    items.forEach((item) => {
+      const { price, subitems = [] } = item;
+      const subitemsPrice = subitems.reduce((total, i) => total + i.price, 0);
+      result.push({
+        ...item,
+        price: price - subitemsPrice,
+      });
+      result.push(...subitems);
+    });
+    return result;
+  }
+);
 
 export const selectActiveItemsByTag = createSelector(
   [selectActiveFlatItems, (state: RootState, tagId: number) => tagId],

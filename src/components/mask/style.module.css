@@ -6,5 +6,6 @@
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
   cursor: pointer;
+  pointer-events: all;
   z-index: var(--mask-index);
 }

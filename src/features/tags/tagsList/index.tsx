@@ -12,14 +12,18 @@ import { Modal } from "../../../components/modal";
 import { TagForm } from "../tagForm";
 import { selectFlatItems } from "../../items/itemsSlice";
 import { notifyError } from "../../../utils/notifier";
+import { TagStats } from "../../stats/tagStats";
 
 export const TagsList = () => {
   const dispatch = useAppDispatch();
   const tags = useSelector(selectAllTags);
   const items = useSelector(selectFlatItems);
 
-  const [activeTag, setActiveTag] = useState<TTag | null>(null);
   const tagModalRef = useRef<TModalRef | null>(null);
+  const tagStatsModalRef = useRef<TModalRef | null>(null)
+
+  const [activeTag, setActiveTag] = useState<TTag | null>(null);
+  const [statsTag, setStatsTag] = useState<TTag | null>(null)
 
   const handleRemove = (tag: TTag) => {
     if (items.some((item) => item.tag === tag.id)) {
@@ -28,6 +32,11 @@ export const TagsList = () => {
     }
     dispatch(removeTag(tag));
   };
+
+  const handleStats = (tag: TTag) => {
+    setStatsTag(tag);
+    tagStatsModalRef.current?.open()
+  }
 
   const handleEdit = (tag: TTag) => {
     if (activeTag?.id !== tag.id) setActiveTag(tag);
@@ -47,6 +56,7 @@ export const TagsList = () => {
             <td>Тег</td>
             <td align="right">Лимит</td>
             <td align="right" width="30"></td>
+            <td align="right" width="30"></td>
           </tr>
         </thead>
         <tbody>
@@ -57,6 +67,9 @@ export const TagsList = () => {
               </td>
               <td align="right" onClick={() => handleEdit(tag)}>
                 <span>{tag.limit}</span>
+              </td>
+              <td align="right" width="30">
+                <Button invert ghost size="m" onClick={() => handleStats(tag)}>s</Button>
               </td>
               <td align="right" width="30">
                 <Button invert ghost size="m" onClick={() => handleRemove(tag)}>
@@ -70,6 +83,10 @@ export const TagsList = () => {
 
       <Modal ref={tagModalRef}>
         <TagForm tag={activeTag} onSubmit={handleSubmit} />
+      </Modal>
+
+      <Modal ref={tagStatsModalRef} size="l">
+        {statsTag && <TagStats tag={statsTag} />}
       </Modal>
     </>
   );

@@ -10,7 +10,7 @@ export const StatsPage = () => {
   return (
     <div>
       <Container>
-        <PeriodStats period={activePeriod} />
+        <PeriodStats period={activePeriod} />  
       </Container>
     </div>
   );

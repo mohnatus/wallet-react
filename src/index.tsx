@@ -9,7 +9,7 @@ import store from "./store/store";
 import { ErrorPage } from "./routes/error";
 import { ItemsPage } from "./routes/items";
 import { StatsPage } from "./routes/stats";
-import { initDB } from "./db";
+import { addPeriodToDb, initDB, updatePeriodInDb } from "./db";
 import { setItems } from "./features/items/itemsSlice";
 import { setPeriods } from "./features/periods/periodsSlice";
 import { setTags } from "./features/tags/tagsSlice";
@@ -34,7 +34,7 @@ const router = createBrowserRouter([
 ]);
 
 initDB().then(({ tags, items, periods }) => {
-  if (!periods.length) {
+  if (!periods.length || periods[0].createdAt === null) {
     const firstItemDate = items.reduce((min, item) => {
       let minDate = Math.min(min, item.createdAt);
 
@@ -45,11 +45,20 @@ initDB().then(({ tags, items, periods }) => {
       return minDate;
     }, +new Date());
 
-    periods.push({
-      id: 0,
-      createdAt: firstItemDate,
-      name: "Начало",
-    });
+    if (!periods.length) {
+      const period = {
+        id: 0,
+        createdAt: firstItemDate,
+        name: "Начало",
+      };
+
+      periods.push(period);
+
+      addPeriodToDb(period);
+    } else {
+      periods[0].createdAt = firstItemDate;
+      updatePeriodInDb(periods[0]);
+    }
   }
 
   store.dispatch(setItems(items));

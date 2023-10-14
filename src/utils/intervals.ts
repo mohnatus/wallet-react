@@ -5,7 +5,7 @@ export function getInterval(
   period1: TPeriod | null | undefined,
   period2: TPeriod | null | undefined
 ): TInterval {
-  return [period1?.createdAt || null, period2?.createdAt || null];
+  return [period1?.createdAt || null, period2?.createdAt || null] as TInterval;
 }
 
 export function formatInterval([period1, period2]: TInterval, start?: number) {
@@ -15,3 +15,4 @@ export function formatInterval([period1, period2]: TInterval, start?: number) {
 
   return `${from}-${to}`;
 }
+

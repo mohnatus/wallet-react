@@ -8,14 +8,20 @@ import { Button } from "../button";
 import { Mask } from "../mask";
 import { CloseIcon } from "../icons/close";
 
-export const Modal = forwardRef<TModalRef, PropsWithChildren>(
-  ({ children }, ref) => {
+export type TModalProps = PropsWithChildren & {
+  size?: "m" | "l";
+};
+
+export const Modal = forwardRef<TModalRef, TModalProps>(
+  ({ size, children }, ref) => {
     const { isOpen, close } = useModal(ref);
 
     if (!isOpen) return null;
 
+    const classes = [s.Modal, size === "l" && s.Large].filter(Boolean);
+
     return createPortal(
-      <div className={s.Modal}>
+      <div className={classes.join(" ")}>
         <Mask onClick={close} />
         <div className={s.FrameWrapper}>
           <div className={s.Container}>

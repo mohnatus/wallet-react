@@ -15,9 +15,9 @@ export const Modal = forwardRef<TModalRef, PropsWithChildren>(
     if (!isOpen) return null;
 
     return createPortal(
-      <>
+      <div className={s.Modal}>
         <Mask onClick={close} />
-        <div className={s.Modal}>
+        <div className={s.FrameWrapper}>
           <div className={s.Container}>
             <div className={s.Frame}>
               <div className={s.Header}>
@@ -29,7 +29,7 @@ export const Modal = forwardRef<TModalRef, PropsWithChildren>(
             </div>
           </div>
         </div>
-      </>,
+      </div>,
       document.getElementById("modals") as HTMLElement
     );
   }

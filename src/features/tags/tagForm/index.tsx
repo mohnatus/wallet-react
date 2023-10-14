@@ -2,15 +2,14 @@ import { FC, FormEventHandler, useCallback, useEffect, useState } from "react";
 import { useAppDispatch } from "../../../store/store";
 import { useSelector } from "react-redux";
 import { addTag, selectAllTags, updateTag } from "../tagsSlice";
-import { NotificationStatuses, TNewTagData, TTag } from "../../../types";
-import { addNotification } from "../../notifier/notifierSlice";
+import { TNewTagData, TTag } from "../../../types";
 import { Field } from "../../../components/field";
 import { Input } from "../../../components/input";
 import { Button } from "../../../components/button";
 
 export type TTagFormProps = {
   tag?: TTag | null;
-  onSubmit?: () => void;
+  onSubmit?: (tagName: string) => void;
 };
 
 export const TagForm: FC<TTagFormProps> = ({ tag, onSubmit }) => {
@@ -52,14 +51,14 @@ export const TagForm: FC<TTagFormProps> = ({ tag, onSubmit }) => {
     };
 
     if (tag) {
-      dispatch(updateTag({ tag, data: tagData }));
+       dispatch(updateTag({ tag, data: tagData }));
     } else {
-      dispatch(addTag(tagData));
+       dispatch(addTag(tagData));
     }
 
     reset();
 
-    if (onSubmit) onSubmit();
+    if (onSubmit) onSubmit(tagName);
   };
 
   useEffect(() => {

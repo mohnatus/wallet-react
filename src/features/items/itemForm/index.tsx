@@ -45,12 +45,27 @@ export const ItemForm: FC<TItemFormProps> = ({ item, onSubmit }) => {
   const [itemTag, setItemTag] = useState(tags[0]?.id.toString() || "");
   const [itemSubitems, setItemSubitems] = useState<Array<TLocalSubitem>>([]);
 
+  const [addedTag, setAddedTag] = useState("");
+
   const priceError =
     isSubmitted && !itemPrice.trim() ? "Обязательное поле" : "";
   const tagError = isSubmitted && !itemTag ? "Обязательное поле" : "";
 
+  useEffect(() => {
+    if (addedTag) {
+      const tag = tags.find((t) => t.name === addedTag);
+      setAddedTag("");
+      if (tag) setItemTag(tag.id.toString());
+    }
+  }, [addedTag, tags]);
+
   const handleAddTag = () => {
     tagModalRef.current?.open();
+  };
+
+  const handleSubmitTag = (tagName: string) => {
+    setAddedTag(tagName);
+    tagModalRef.current?.close();
   };
 
   const handleAddSubitem = () => {
@@ -214,7 +229,7 @@ export const ItemForm: FC<TItemFormProps> = ({ item, onSubmit }) => {
       </form>
 
       <Modal ref={tagModalRef}>
-        <TagForm onSubmit={() => tagModalRef.current?.close()} />
+        <TagForm onSubmit={handleSubmitTag} />
       </Modal>
     </>
   );
